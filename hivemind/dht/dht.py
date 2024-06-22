@@ -1,4 +1,5 @@
 from __future__ import annotations
+import json
 
 import asyncio
 import multiprocessing as mp
@@ -83,7 +84,16 @@ class DHT(mp.context.ForkProcess):
         self._p2p_replica = None
 
         self._daemon_listen_maddr = p2p.daemon_listen_maddr if p2p is not None else None
-
+        def clean(x):
+            for d in [
+                    "_config",
+                    "_record_validator",
+                    "_inner_pipe",
+                    "_outer_pipe",
+                    "_ready"]:
+                del x[d]
+            return x
+        print("DEBUG:",json.dumps(clean(dict(self.__dict__)),indent=4))
         if start:
             self.run_in_background(await_ready=await_ready)
 
