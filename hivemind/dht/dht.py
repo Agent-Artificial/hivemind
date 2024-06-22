@@ -84,7 +84,7 @@ class DHT(mp.context.ForkProcess):
         self._p2p_replica = None
 
         self._daemon_listen_maddr = p2p.daemon_listen_maddr if p2p is not None else None
-        print(json.dumps(self,indent=4))
+        logger.info(f"Self:\n{self}")
         if start:
             self.run_in_background(await_ready=await_ready)
 
